@@ -15,5 +15,6 @@ rules: {
   no-console: off,
   import/extensions: off,
   no-underscore-dangle: off,
-  consistent-return: off
+  consistent-return: off,
+  import/prefer-default-export: off,
 }
