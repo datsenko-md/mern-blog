@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt';
 
 import { registerValidation } from './validations/auth.js';
 import UserModel from './models/User.js';
+import checkAuth from './utils/checkAuth.js';
 
 mongoose
   .connect('mongodb+srv://datsenkomd:gzR69eNgGTWOPlQZ@cluster0.gang369.mongodb.net/mern_blog?retryWrites=true&w=majority')
@@ -98,6 +99,27 @@ app.post('/login', async (req, res) => {
     console.log(err);
     res.status(500).json({
       message: 'Не удалось авторизоваться',
+    });
+  }
+});
+
+app.get('/me', checkAuth, async (req, res) => {
+  try {
+    const user = await UserModel.findById(req.userId);
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'Пользователь не найден',
+      });
+    }
+
+    const { passwordHash, ...userData } = user._doc;
+
+    res.json(userData);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Нет доступа',
     });
   }
 });
