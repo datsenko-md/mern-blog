@@ -24,7 +24,7 @@ app.post('/register', registerValidation, async (req, res) => {
 
   const { password } = req.body;
   const salt = await bcrypt.genSalt();
-  const passwordHash = await bcrypt.compare.hash(password, salt);
+  const passwordHash = await bcrypt.hash(password, salt);
 
   const doc = new UserModel({
     email: req.body.email,
