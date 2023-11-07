@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 
 app.post('/register', registerValidation, UserController.register);
-app.post('/login', UserController.login);
+app.post('/login', loginValidation, UserController.login);
 app.get('/me', checkAuth, UserController.getMe);
 
 app.listen(4444, (err) => {
